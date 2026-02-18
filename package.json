@@ -1,0 +1,89 @@
+{
+  "name": "@s3-tools/zip-transfer",
+  "version": "2.4.0",
+  "description": "Stream S3 folders to ZIP archives with presigned URLs. Supports large files, filters, encryption, and progress tracking.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.js"
+    },
+    "./errors": {
+      "types": "./dist/errors.d.ts",
+      "require": "./dist/errors.js",
+      "import": "./dist/errors.js"
+    }
+  },
+  "bin": {
+    "s3-zip": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "s3",
+    "aws",
+    "zip",
+    "archive",
+    "presigned-url",
+    "backup",
+    "streaming",
+    "multipart-upload",
+    "compression",
+    "cloud-storage"
+  ],
+  "author": {
+    "name": "Samuel Pacheco Pereira",
+    "url": "https://github.com/mucapacheco"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feegow/s3-zip-transfer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/feegow/s3-zip-transfer/issues"
+  },
+  "homepage": "https://github.com/feegow/s3-zip-transfer#readme",
+  "peerDependencies": {
+    "@aws-sdk/client-s3": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@aws-sdk/client-s3": {
+      "optional": false
+    }
+  },
+  "dependencies": {
+    "@aws-sdk/credential-providers": "^3.988.0",
+    "@aws-sdk/lib-storage": "^3.988.0",
+    "@aws-sdk/s3-request-presigner": "^3.988.0",
+    "archiver": "^7.0.1",
+    "minimatch": "^10.0.2",
+    "zod": "^3.24.2"
+  },
+  "optionalDependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^13.1.0"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-s3": "^3.988.0",
+    "@types/archiver": "^7.0.0",
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
