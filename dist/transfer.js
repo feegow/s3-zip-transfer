@@ -165,6 +165,10 @@ class S3ZipTransfer extends events_1.EventEmitter {
             // 5. Start upload in parallel
             this.emit('upload:start', { bucket: destination.bucket, key: destination.key });
             const uploadStart = Date.now();
+            // Calculate object expiration date if specified
+            const expiresDate = opts.objectExpiration
+                ? new Date(Date.now() + opts.objectExpiration * 1000)
+                : undefined;
             const uploadPromise = this.s3Service.uploadStream(destination.bucket, destination.key, zipStream, {
                 partSize: opts.partSize,
                 queueSize: opts.queueSize,
@@ -173,6 +177,7 @@ class S3ZipTransfer extends events_1.EventEmitter {
                 tagging: opts.tags,
                 serverSideEncryption: opts.encryption,
                 sseKmsKeyId: opts.kmsKeyId,
+                expires: expiresDate,
                 abortSignal: combinedSignal,
                 onProgress: (uploaded) => {
                     emitProgress({

@@ -85,6 +85,8 @@ export interface ZipOptions {
     queueSize?: number;
     /** Presigned URL expiration in seconds (default: 3600) */
     urlExpiration?: number;
+    /** HTTP Expires header in seconds - sets cache control metadata for the object */
+    objectExpiration?: number;
     /** Glob patterns to include (e.g., ['*.jpg', 'docs/**']) */
     include?: string[];
     /** Glob patterns to exclude (e.g., ['*.tmp', 'node_modules/**']) */
@@ -250,6 +252,7 @@ export declare const ZipOptionsSchema: z.ZodObject<{
     partSize: z.ZodDefault<z.ZodNumber>;
     queueSize: z.ZodDefault<z.ZodNumber>;
     urlExpiration: z.ZodDefault<z.ZodNumber>;
+    objectExpiration: z.ZodOptional<z.ZodNumber>;
     include: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
     exclude: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
     storageClass: z.ZodDefault<z.ZodEnum<["STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "GLACIER_IR"]>>;
@@ -270,6 +273,7 @@ export declare const ZipOptionsSchema: z.ZodObject<{
     checksum: boolean;
     flatten: boolean;
     dryRun: boolean;
+    objectExpiration?: number | undefined;
     include?: string[] | undefined;
     exclude?: string[] | undefined;
     encryption?: "AES256" | "aws:kms" | undefined;
@@ -282,6 +286,7 @@ export declare const ZipOptionsSchema: z.ZodObject<{
     partSize?: number | undefined;
     queueSize?: number | undefined;
     urlExpiration?: number | undefined;
+    objectExpiration?: number | undefined;
     include?: string[] | undefined;
     exclude?: string[] | undefined;
     storageClass?: "STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA" | "ONEZONE_IA" | "INTELLIGENT_TIERING" | "GLACIER" | "DEEP_ARCHIVE" | "GLACIER_IR" | undefined;
@@ -366,6 +371,7 @@ export declare const ZipRequestSchema: z.ZodEffects<z.ZodObject<{
         partSize: z.ZodOptional<z.ZodDefault<z.ZodNumber>>;
         queueSize: z.ZodOptional<z.ZodDefault<z.ZodNumber>>;
         urlExpiration: z.ZodOptional<z.ZodDefault<z.ZodNumber>>;
+        objectExpiration: z.ZodOptional<z.ZodOptional<z.ZodNumber>>;
         include: z.ZodOptional<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>;
         exclude: z.ZodOptional<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>;
         storageClass: z.ZodOptional<z.ZodDefault<z.ZodEnum<["STANDARD", "REDUCED_REDUNDANCY", "STANDARD_IA", "ONEZONE_IA", "INTELLIGENT_TIERING", "GLACIER", "DEEP_ARCHIVE", "GLACIER_IR"]>>>;
@@ -382,6 +388,7 @@ export declare const ZipRequestSchema: z.ZodEffects<z.ZodObject<{
         partSize?: number | undefined;
         queueSize?: number | undefined;
         urlExpiration?: number | undefined;
+        objectExpiration?: number | undefined;
         include?: string[] | undefined;
         exclude?: string[] | undefined;
         storageClass?: "STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA" | "ONEZONE_IA" | "INTELLIGENT_TIERING" | "GLACIER" | "DEEP_ARCHIVE" | "GLACIER_IR" | undefined;
@@ -398,6 +405,7 @@ export declare const ZipRequestSchema: z.ZodEffects<z.ZodObject<{
         partSize?: number | undefined;
         queueSize?: number | undefined;
         urlExpiration?: number | undefined;
+        objectExpiration?: number | undefined;
         include?: string[] | undefined;
         exclude?: string[] | undefined;
         storageClass?: "STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA" | "ONEZONE_IA" | "INTELLIGENT_TIERING" | "GLACIER" | "DEEP_ARCHIVE" | "GLACIER_IR" | undefined;
@@ -420,6 +428,7 @@ export declare const ZipRequestSchema: z.ZodEffects<z.ZodObject<{
         partSize?: number | undefined;
         queueSize?: number | undefined;
         urlExpiration?: number | undefined;
+        objectExpiration?: number | undefined;
         include?: string[] | undefined;
         exclude?: string[] | undefined;
         storageClass?: "STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA" | "ONEZONE_IA" | "INTELLIGENT_TIERING" | "GLACIER" | "DEEP_ARCHIVE" | "GLACIER_IR" | undefined;
@@ -454,6 +463,7 @@ export declare const ZipRequestSchema: z.ZodEffects<z.ZodObject<{
         partSize?: number | undefined;
         queueSize?: number | undefined;
         urlExpiration?: number | undefined;
+        objectExpiration?: number | undefined;
         include?: string[] | undefined;
         exclude?: string[] | undefined;
         storageClass?: "STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA" | "ONEZONE_IA" | "INTELLIGENT_TIERING" | "GLACIER" | "DEEP_ARCHIVE" | "GLACIER_IR" | undefined;
@@ -488,6 +498,7 @@ export declare const ZipRequestSchema: z.ZodEffects<z.ZodObject<{
         partSize?: number | undefined;
         queueSize?: number | undefined;
         urlExpiration?: number | undefined;
+        objectExpiration?: number | undefined;
         include?: string[] | undefined;
         exclude?: string[] | undefined;
         storageClass?: "STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA" | "ONEZONE_IA" | "INTELLIGENT_TIERING" | "GLACIER" | "DEEP_ARCHIVE" | "GLACIER_IR" | undefined;
@@ -522,6 +533,7 @@ export declare const ZipRequestSchema: z.ZodEffects<z.ZodObject<{
         partSize?: number | undefined;
         queueSize?: number | undefined;
         urlExpiration?: number | undefined;
+        objectExpiration?: number | undefined;
         include?: string[] | undefined;
         exclude?: string[] | undefined;
         storageClass?: "STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA" | "ONEZONE_IA" | "INTELLIGENT_TIERING" | "GLACIER" | "DEEP_ARCHIVE" | "GLACIER_IR" | undefined;

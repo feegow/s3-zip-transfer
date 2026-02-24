@@ -209,6 +209,11 @@ export class S3ZipTransfer extends EventEmitter {
       this.emit('upload:start', { bucket: destination.bucket, key: destination.key });
       const uploadStart = Date.now();
 
+      // Calculate object expiration date if specified
+      const expiresDate = opts.objectExpiration 
+        ? new Date(Date.now() + opts.objectExpiration * 1000)
+        : undefined;
+
       const uploadPromise = this.s3Service.uploadStream(
         destination.bucket,
         destination.key,
@@ -221,6 +226,7 @@ export class S3ZipTransfer extends EventEmitter {
           tagging: opts.tags,
           serverSideEncryption: opts.encryption,
           sseKmsKeyId: opts.kmsKeyId,
+          expires: expiresDate,
           abortSignal: combinedSignal,
           onProgress: (uploaded) => {
             emitProgress({
