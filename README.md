@@ -136,6 +136,21 @@ const result = await transfer.zip({
 });
 ```
 
+### With Object Expiration
+
+```typescript
+const result = await transfer.zip({
+  source: { bucket: 'my-bucket', prefix: 'temp-data/' },
+  destination: { bucket: 'backups', key: 'temp-backup.zip' },
+  options: {
+    objectExpiration: 604800, // HTTP cache expiration after 7 days (in seconds)
+    urlExpiration: 86400,     // Presigned URL expires in 24 hours
+  },
+});
+```
+
+> **Note:** The `objectExpiration` option sets the HTTP `Expires` header on the S3 object, which is used by HTTP caching mechanisms. To automatically delete objects, configure [S3 Lifecycle policies](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html) on your bucket.
+
 ### Progress Tracking
 
 ```typescript
@@ -342,7 +357,8 @@ interface ZipOptions {
   maxRetries?: number;         // default: 3
   partSize?: number;           // default: 100MB
   queueSize?: number;          // default: 4
-  urlExpiration?: number;      // seconds (default: 3600)
+  urlExpiration?: number;      // presigned URL expiration in seconds (default: 3600)
+  objectExpiration?: number;   // HTTP cache expiration in seconds (sets Expires header)
   include?: string[];          // global glob patterns
   exclude?: string[];          // global glob patterns
   storageClass?: StorageClass;

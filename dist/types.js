@@ -12,6 +12,7 @@ exports.ZipOptionsSchema = zod_1.z.object({
     partSize: zod_1.z.number().min(5 * 1024 * 1024).default(100 * 1024 * 1024), // 100MB default for large files
     queueSize: zod_1.z.number().min(1).max(10).default(4),
     urlExpiration: zod_1.z.number().min(60).max(604800).default(3600),
+    objectExpiration: zod_1.z.number().min(60).optional(), // minimum 60 seconds
     include: zod_1.z.array(zod_1.z.string()).optional(),
     exclude: zod_1.z.array(zod_1.z.string()).optional(),
     storageClass: zod_1.z.enum([

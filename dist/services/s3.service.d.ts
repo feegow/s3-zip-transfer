@@ -27,6 +27,8 @@ export interface UploadStreamOptions {
     tagging?: Record<string, string>;
     serverSideEncryption?: 'AES256' | 'aws:kms';
     sseKmsKeyId?: string;
+    /** HTTP Expires header - sets cache control metadata indicating when the object is considered stale */
+    expires?: Date;
     onProgress?: (uploaded: number) => void;
     abortSignal?: AbortSignal;
 }

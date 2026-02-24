@@ -128,7 +128,7 @@ class S3Service {
     async uploadStream(bucket, key, body, options = {}) {
         const { contentType = 'application/zip', partSize = 100 * 1024 * 1024, // 100MB default for large files
         queueSize = 4, // concurrent uploads
-        storageClass = 'STANDARD', metadata, tagging, serverSideEncryption, sseKmsKeyId, onProgress, abortSignal, } = options;
+        storageClass = 'STANDARD', metadata, tagging, serverSideEncryption, sseKmsKeyId, expires, onProgress, abortSignal, } = options;
         const taggingString = tagging
             ? Object.entries(tagging)
                 .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
@@ -146,6 +146,7 @@ class S3Service {
                 ...(taggingString && { Tagging: taggingString }),
                 ...(serverSideEncryption && { ServerSideEncryption: serverSideEncryption }),
                 ...(sseKmsKeyId && { SSEKMSKeyId: sseKmsKeyId }),
+                ...(expires && { Expires: expires }),
             },
             queueSize, // concurrent part uploads
             partSize, // size of each part

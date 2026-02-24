@@ -108,6 +108,8 @@ export interface ZipOptions {
   queueSize?: number;
   /** Presigned URL expiration in seconds (default: 3600) */
   urlExpiration?: number;
+  /** HTTP Expires header in seconds - sets cache control metadata for the object */
+  objectExpiration?: number;
   
   // Filtering
   /** Glob patterns to include (e.g., ['*.jpg', 'docs/**']) */
@@ -312,6 +314,7 @@ export const ZipOptionsSchema = z.object({
   partSize: z.number().min(5 * 1024 * 1024).default(100 * 1024 * 1024), // 100MB default for large files
   queueSize: z.number().min(1).max(10).default(4),
   urlExpiration: z.number().min(60).max(604800).default(3600),
+  objectExpiration: z.number().min(60).optional(), // minimum 60 seconds
   include: z.array(z.string()).optional(),
   exclude: z.array(z.string()).optional(),
   storageClass: z.enum([
